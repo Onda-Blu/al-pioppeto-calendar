@@ -4,9 +4,24 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import process from 'process';
 import 'dotenv/config';
+import cors from 'cors';
+
 
 const app = express();
 app.use(bodyParser.json());
+
+// Enable CORS for specific origins
+const allowedOrigins = ['http://localhost:8080', 'https://preview--washlane-pro.lovable.app'];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 // Load service account credentials
 if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
@@ -21,6 +36,10 @@ const auth = new google.auth.GoogleAuth({
 });
 
 const calendar = google.calendar({ version: 'v3', auth });
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
 
 // Get available time slots (freebusy)
 app.get('/api/calendar/slots', async (req, res) => {
