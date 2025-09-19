@@ -13,9 +13,6 @@ COPY src ./src
 COPY tsconfig.json ./
 COPY .gitignore ./
 
-# Copy credentials if present (for local dev, not recommended for production)
-COPY google-service-account.json ./
-
 # Expose port
 EXPOSE 4000
 
