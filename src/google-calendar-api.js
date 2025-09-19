@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // Enable CORS for specific origins
-const allowedOrigins = ['http://localhost:8080', 'https://preview--washlane-pro.lovable.app'];
+const allowedOrigins = ['http://localhost:8080', 'https://preview--washlane-pro.lovable.app', 'https://onda-blu.github.io'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
