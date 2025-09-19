@@ -1,0 +1,12 @@
+{
+  "project": "al-pioppeto-calendar",
+  "services": [
+    {
+      "name": "calendar-api",
+      "startCommand": "npm run start",
+      "env": {
+        "PORT": "4000"
+      }
+    }
+  ]
+}
