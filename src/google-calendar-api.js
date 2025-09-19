@@ -2,12 +2,17 @@ import { google } from 'googleapis';
 import express from 'express';
 import bodyParser from 'body-parser';
 import fs from 'fs';
+import process from 'process';
+import 'dotenv/config';
 
 const app = express();
 app.use(bodyParser.json());
 
 // Load service account credentials
-const credentials = JSON.parse(fs.readFileSync('google-service-account.json', 'utf8'));
+if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+  throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not set');
+}
+const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
 const calendarId = '07b3067fce6c958cd2ce7b642da7e5f65ccb43ae4b933e5757e52facc5c958b2@group.calendar.google.com'; // Replace with your calendar ID
 
 const auth = new google.auth.GoogleAuth({
@@ -20,7 +25,7 @@ const calendar = google.calendar({ version: 'v3', auth });
 // Get available time slots (freebusy)
 app.get('/api/calendar/slots', async (req, res) => {
   const { date } = req.query;
-  const start = new Date(date as string);
+  const start = new Date(date);
   const end = new Date(start);
   end.setDate(start.getDate() + 1);
 
