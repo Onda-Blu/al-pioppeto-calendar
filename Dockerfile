@@ -11,7 +11,6 @@ RUN npm install --production
 # Copy source code
 COPY src ./src
 COPY tsconfig.json ./
-COPY .gitignore ./
 
 # Expose port
 EXPOSE 4000
